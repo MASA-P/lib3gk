@@ -1,37 +1,32 @@
 ***************************************************************************
-	携帯用ライブラリ「Ktai Library」説明書
-	Copyright 2009-2011 ECWorks ( http://www.ecworks.jp/ )
+	携帯用PHPライブラリ「Lib3gk」説明書
+	Copyright 2011 ECWorks ( http://www.ecworks.jp/ )
 ***************************************************************************
 
 　ダウンロードいただきましてありがとうございます。
 
-　本ドキュメントでは、携帯サイトの構築に必要な機能を提供する携帯ライブラリと、
-CakePHP内で利用するためのヘルパー・コンポーネント一式についての設置方法および
-設定方法について簡単にご説明させていただきます。設置する前にご一読いただきます
-よう、お願い申し上げます。
+　本ドキュメントでは、携帯サイトの構築に必要な機能を提供する携帯サイト向けPHP
+ライブラリについての設置方法および設定方法について簡単にご説明させていただき
+ます。設置する前にご一読いただきますよう、お願い申し上げます。
 
 
 --------------------------------------------------
 ■はじめに
 --------------------------------------------------
 
-　本ライブラリ群は、CakePHPを利用して携帯サイトを手軽に構築するための機能を
-提供いたします。とりわけ、キャリア毎の絵文字変換およびキャリア判定・メール判定は
+　本ライブラリ群は、PHPを利用して携帯サイトを手軽に構築するための機能を提供
+いたします。とりわけ、キャリア毎の絵文字変換およびキャリア判定・メール判定は
 本ライブラリ群を利用することで簡単に行えるようになります。
-　なお本ライブラリ単体は、CakePHPに限らずPHP環境でしたらインクルードすることで
-使えるように作成されておりますので、幅広いシチュエーションでご利用できます。
 
 
 --------------------------------------------------
 ■動作環境
 --------------------------------------------------
 
-　本ライブラリは、PHP4/5で動作するように作成されています。チェックはPHP5環境にて
-行っております。
-　CakePHP用ヘルパー・コンポーネントは、CakePHP1.3.0 Stableにて動作確認を
-しておりますが、それ以前のバージョンでも使用できると思います。
-　なお、CakePHP1.1では、一部アウトプット仕様が異なるため、使用できない機能が
-ありますのでサポート外です。
+　本ライブラリは、PHP5で動作するように作成されています。開発環境はPHP5.2系を
+用いております。
+　現バージョンではPHP4でも動作可能ですが、今後リファクタリングを行いPHP4
+コードを除去していきますので、PHP4環境は推奨しておりません。
 
 
 --------------------------------------------------
@@ -70,79 +65,37 @@ CakePHP内で利用するためのヘルパー・コンポーネント一式に�
 　配布アーカイブを解凍すると、次のファイルが生成されます。生成ファイルを、
 CakePHP内の所定の場所にアップロードしてください。
 
-+- app								[755] 
-|  +- config						[755] 
-|  |  +- ktai_session.php			[644] 携帯向けセッション設定
-|  +- controllers					[755] 
-|  |  +- components					[755] 
-|  |  |  +- ktai.php				[644] 携帯コンポーネント
-|  +- views							[755] 
-|  |  +- helpers					[755] 
-|  |     +- ktai.php				[644] 携帯ヘルパー
-|  +- webroot						[755] 
-|  |  +- img						[755] 
-|  |     +- emoticons				[755] 絵文字画像はここに設置します(後述)
-|  |        +- empty				[***] (ダミー・アップロード不要です)
-|  +- ktai_app_controller.php		[644] 携帯用app_controller.php(*)
-|  +- app_error.php					[644] 携帯用app_error.php
-+- vendors							[755] 
-|  +- ecw							[755] 
-|     +- session					[755] 
-|     |  +- ktai_session_12.php		[644] CakePHP1.2用セッション設定
-|     |  +- ktai_session_13.php		[644] CakePHP1.3用セッション設定
-|     +- lib3gk.php					[644] 携帯ライブラリ本体
-|     +- lib3gk_carrier.php			[644] 携帯ライブラリ本体(キャリア判定関連)
-|     +- lib3gk_def.php				[644] 携帯ライブラリ本体(定義関連)
-|     +- lib3gk_emoji.php			[644] 携帯ライブラリ本体(絵文字関連)
-|     +- lib3gk_html.php			[644] 携帯ライブラリ本体(HTML関連)
-|     +- lib3gk_ip.php				[644] 携帯ライブラリ本体(IPアドレス関連)
-|     +- lib3gk_machine.php			[644] 携帯ライブラリ本体(機種情報関連)
-|     +- lib3gk_tools.php			[644] 携帯ライブラリ本体(その他ツール関連)
-|									↓↓↓以下はアップロード不要です
-+- readme.txt						[***] このファイル
-+- LICENSE							[***] GNUライセンス規約書
-
-　なお、ライブラリ単体で利用する場合は、vendors/ecw内のライブラリファイルのみを
-所定のディレクトリにアップロードしてください。その他のファイルは不要です。
-
-(*)セッション関連を使用する場合は、app_controller.phpの代わりにこちらを利用
-するか、既存app_controller.phpに必要箇所をペーストしてください
++- libs							[755] 
+|  +- lib3gk.php				[644] 総合ライブラリ
+|  +- lib3gk_carrier.php		[644] キャリア判定関連ライブラリ
+|  +- lib3gk_def.php			[644] 定義ファイル
+|  +- lib3gk_emoji.php			[644] 絵文字関連ライブラリ
+|  +- lib3gk_html.php			[644] HTML関連ライブラリ
+|  +- lib3gk_ip.php				[644] IPアドレス関連ライブラリ
+|  +- lib3gk_machine.php		[644] 機種情報関連ライブラリ
+|  +- lib3gk_tools.php			[644] その他ツール関連ライブラリ
+|								↓↓↓以下はアップロード不要です
++- tests						[755] 
+|  +- Lib3gkTest.php			[644] 総合ライブラリテストコード
+|  +- Lib3gkCarrier.php			[644] キャリア判定関連ライブラリテストコード
+|  +- Lib3gkEmoji.php			[644] 絵文字関連ライブラリテストコード
+|  +- Lib3gkHtml.php			[644] HTML関連ライブラリテストコード
+|  +- Lib3gkIp.php				[644] IPアドレス関連ライブラリテストコード
+|  +- Lib3gkMachine.php			[644] 機種情報関連ライブラリテストコード
+|  +- Lib3gkTools.php			[644] その他ツール関連ライブラリテストコード
++- readme.txt					[***] このファイル
++- LICENSE						[***] GNUライセンス規約書
 
 
 --------------------------------------------------
 ■設定
 --------------------------------------------------
 
-　携帯ライブラリでは、次の設定が必要になります。
-
-【簡単な流れ】
-
-[設定開始]
-　　↓          No
-CakePHPで使う？ --→ １：ライブラリ単体で用いる場合 ------------------+
-　　｜Yes                                                             |
-　　↓             Yes                                                |
-セッションを使う？ --→ 2-a：セッションを使用する場合 -+              |
-　　｜No                                               |              |
-　　｜                      +--------------------------+              |
-　　↓                      | Yes                                     |
-ktaiコンポーネントを使う？ -+                                         |
- もしくは                   +-→ 2-b：ktaiコンポーネントを用いる場合 -+
-自動変換処理を行う？       -+                                         |
-　　｜No                                                              |
-　　↓                                                                |
-2-c：ktaiヘルパーのみを用いる場合                                     |
-　　｜                                                                |
-　　｜←--------------------------------------------------------------+
-　　↓
-[設定完了]
-
-
-１：ライブラリ単体で用いる場合
-
-　ライブラリ単体で用いる場合は、まずライブラリクラスのインスタンスを入手し、
-その中の「_params」プロパティを変更します。_paramsプロパティは連想配列で
-表現されています。
+　基本的に、ライブラリの使用方法は、まずライブラリクラスのインスタンスを入手し、
+その中の「_params」プロパティを変更します。_paramsプロパティは連想配列で表現
+されています。
+　本ライブラリの構成は、「Lib3gk」がメインクラスとなっており、このクラスを
+呼び出す事で全ての機能を利用する事が出来ます。
 
 【設定例１：標準で利用する場合】
 
@@ -153,9 +106,11 @@ $ktai->_params = array(
 		'output_encoding' => KTAI_ENCODING_UTF8, 	//出力をUTF-8に変更
 );
 
-　バージョン0.3からは、ライブラリの機能をサブクラス化しました。このため、
-特定機能のみを利用することが出来ます。例えばキャリア判定のみを利用する場合は
-「Lib3gkCarrier」のインスタンスを入手することでキャリア判定が行えます。
+　また、サブクラスを個別に呼び出す事も可能です。例えばキャリア判定のみを行いたい
+場合は「Lib3gkCarrier」のインスタンスを入手します。
+　上記状態で、さらに他のサブクラスを呼び出して同時に利用する事も出来ます。この
+場合は、既に設定しているparamsパラメータがある場合はその値を引き継いで利用します
+ので、同じ値を再定義する必要はありません。
 
 【設定例２：特定機能のみを利用する場合】
 
@@ -168,181 +123,20 @@ $carrier->_params = array(
 $html = Lib3gkHtml::get_instance();		//別の機能も利用できます。
 										//パラメータは引き継がれます
 
-２：CakePHPで使用する場合
-
-　CakePHPで用いる場合は、コンポーネントを利用する場合と、ヘルパー単体で利用
-する場合とで、設定方法が異なります。
-　また、携帯でセッションを用いたい場合は、セッション用の設定が必要になります。
-
-2-a：セッションを使用する場合【大変に重要!!】
-
-　CakePHPで携帯サイトを実現するにあたり、セッションを使うための設定が必要に
-なります(携帯でセッション機能を使わない場合は省略することも出来ます)。
-　なお、セッションを使用する場合は、Ktaiコンポーネントが必須となります。
-
-2-a-1 : routes.phpへの記述
-
-　namedパラメータのセパレータ文字を変更します。
-　「app/config/routes.php」に、次の記述を「一番最初に」行ってください。
-　セパレータ文字列は、無指定の場合は「:」となりますが、この文字の場合に
-iMODEにてセッションIDが付加されなくなりますので必ず指定します。
-　利用可能な文字は下記URLで確認してください(設定例では、比較的影響の少ない
-ものと思われる「~」としています)。
-
-【routes.phpの設定例】
-
-	Router::connectNamed(array(), array('argSeparator' => '~'));
-	
-	//↓以下、Router::connect(～)を記述します
-
-
-2-a-2：ktai_app_controller.phpの適用(もしくは編集)
-
-　添付されているktai_app_controller.phpをappディレクトリにコピーして
-「AppController」の代わりに「KtaiAppController」をextendsするようにします。
-もしくは、ktai_app_controller.phpの内容をapp_controller.phpにコピーして使います。
-
-　なおクラス定義の前に、次のように冒頭でktai_app_controller.phpを読み込む必要が
-あります。
-
-App::import('Controller', 'KtaiApp');	//ファイルは自動で読み込まれないため
-										//別途行う必要がある
-class FoosController extends KtaiAppController {
-	//通常のクラス定義
-}
-
-2-a-3：パラメータの追加
-
-　各コントローラもしくはktai_app_controler.php内に、セッション用のパラメータを
-追加します。
-　基本的にはデフォルトのままで動作するように出来ていますが、逆に動作させたくない
-場合などで行います。
-
-var $ktai = array(
-	'enable_ktai_session' => true, 			//セッション使用を有効にします
-	'use_redirect_session_id' => false, 	//リダイレクトに必ずセッションIDを
-											//つけます
-	'imode_session_name' => 'csid', 		//iMODE時のセッション名を変更します
-);
-
-
-2-b：ktaiコンポーネントを用いる場合(ヘルパーの使用は問わない)
-
-　コンポーネントを用いる場合は、利用するコントローラ内に「ktai」プロパティを
-作成します。
-　また、絵文字や文字エンコーディングなどの自動変換を行いたい場合も
-コンポーネントを導入する必要があります。
-
-【設定例】
-
-App::import('Controller', 'KtaiApp');
-class HogeController extends KtaiAppController {
-	
-	var $components = array('Ktai');
-	
-	//省略
-	
-	var $ktai = array(
-		'use_img_emoji' => true, 				//画像絵文字を使用
-		'input_encoding'  => 'UTF-8', 			//入力をUTF-8に変更
-		'output_encoding' => 'UTF-8', 			//出力をUTF-8に変更
-		
-		'output_convert_kana' => 'knrs', 		//かなの変換を行う
-		'output_auto_convert_emoji' => true, 	//絵文字自動変換を行う
-		
-	
-	//省略
-}
-
-　コントローラ中でライブラリを使う場合は、上記ktaiプロパティを変更します。
-このプロパティは、ライブラリ内の設定値プロパティを参照しているため、設定は
-即座にライブラリ内に反映します。
-　なお、これら設定値は､ktaiヘルパー使用時はそのまま引き継がれます。
-
-※現時点で、エンコーディング文字列を定義している定数は使用することは
-　出来ません。
-
-2-c：ktaiヘルパーのみを用いる場合
-
-　ヘルパー「のみ」を用いる場合は、コントローラ内でConfigure::write()を用いて
-設定値を受け渡します。
-　基本的に何処に書いても、最終的にはrender()内でヘルパーが初期化されるため、
-値は反映されます。beforeFilter内で記述するのが一般的ですが、コントローラ内の
-アクション処理内でもOKです。
-
-【設定例１：beforeFilter内で設定する場合】
-
-App::import('Controller', 'KtaiApp');
-class HogeController extends KtaiAppController {
-	
-	//省略
-	
-	function beforeFilter(){
-		Configure::write('Ktai', array(
-			'use_img_emoji'   => true, 					//画像絵文字を使用
-			'input_encoding'  => KTAI_ENCODING_UTF8, 	//入力をUTF-8に変更
-			'output_encoding' => KTAI_ENCDING_UTF8, 	//出力をUTF-8に変更
-		));
-	}
-	
-	//省略
-}
-
-【設定例２：アクション処理内で設定する場合】
-
-App::import('Controller', 'KtaiApp');
-class HogeController extends KtaiAppController {
-	
-	//省略
-	
-	function fuga(){
-		
-		//省略
-		
-		Configure::write('Ktai', array(
-			'use_img_emoji'   => true, 					//画像絵文字を使用
-			'input_encoding'  => KTAI_ENCODING_UTF8, 	//入力をUTF-8に変更
-			'output_encoding' => KTAI_ENCDING_UTF8, 	//出力をUTF-8に変更
-		));
-		
-		$this->render();								//renderまでに設定を
-														//終えてください
-	}
-	
-	//省略
-}
-
-　また、ビュー内では、ヘルパー内の設定プロパティを直接書き換えることで
-設定値を変更することが出来ます。設定プロパティは、ライブラリ内の設定
-プロパティを参照しておりますので、即座に値が反映されます。
-
-【設定例３：ビューテンプレート内で設定をする場合】
-
-<?php
-$ktai->options['use_img_emoji']   = true;
-$ktai->options['input_encoding']  = KTAI_ENCODING_UTF8, //入力をUTF-8に変更
-$ktai->options['output_encoding'] = KTAI_ENCDING_UTF8, 	//出力をUTF-8に変更
-?>
-■今日のお天気<br>
-東京都：<?php $ktai->emoji(0xe63e); ?><br>
-
-
 ◎設定値詳細
 
-ライブラリ内の「_params」プロパティ、もしくはcontroller内の「ktai」
-プロパティ、ヘルパーを利用する際の「Configure::write('Ktai', $params);」で設定
-するparams連想配列で指定する、各種設定値については、次の通りです。
-なお、記載されている設定値はデフォルトです。
+　ライブラリ内の「_params」プロパティで設定するparams連想配列で指定する、各種
+設定値については、次の通りです。なお、記載されている設定値はデフォルトです。
 
 【エンコーディング関連設定】
 
 ・入力エンコーディング(string)
-	'input_encoding'  => KTAI_ENCODING_SJIS, 
+	'input_encoding'  => KTAI_ENCODING_UTF8, 
 
 　加工前のエンコーディングを指定します。
 
 ・出力エンコーディング(string)
-	'output_encoding' => KTAI_ENCODING_SJIS, 
+	'output_encoding' => KTAI_ENCODING_UTF8, 
 
 　加工後のエンコーディングを指定します。
 
@@ -393,7 +187,7 @@ $ktai->options['output_encoding'] = KTAI_ENCDING_UTF8, 	//出力をUTF-8に変�
 	'iphone_email_belongs_to_softbank_email' => false, 
 
 
-【Android関連設定】[New!]
+【Android関連設定】
 
 ・Androidを携帯とみなす(bool)
 	'android_user_agent_belongs_to_ktai'      => false, 
@@ -408,34 +202,6 @@ $ktai->options['output_encoding'] = KTAI_ENCDING_UTF8, 	//出力をUTF-8に変�
 　画像ストレッチ機能(■ライブラリ関数リファレンス「◎スクリーンサイズに
 最適化した画像を表示」を参照)で使用されます。
 
-
-【文字コードコンバート関連】(コンポーネントのみ)
-
-・アウトプットに対して絵文字の自動コンバートを行う(bool)
-	'output_auto_convert_emoji' => false, 
-
-　このフラグを指定すると、アウトプット内にある絵文字について検索を行い、
-コンバートを自動で行います。
-　なお、絵文字の自動変換に入力と出力の文字エンコーディング情報が必要です。必ず
-「input_encoding」「output_encoding」も指定します。
-　また、絵文字コンバートを行う場合、文字コードのコンバートも自動的に行います。
-
-
-・アウトプットに対して文字コードの自動コンバートを行う(bool)
-	'output_auto_encoding' => false, 
-
-　このフラグを指定すると、入力文字コード指定と出力文字コード指定が異なる場合、
-自動変換します。
-
-・仮名変換(string)
-	'output_convert_kana' => 'knr', 
-
-　このオプションを指定すると、仮名文字変換(mb_convert_kana())を自動で行います。
-　与える文字列はmb_convert_kana()で与えるオプションです。
-　デフォルトはfalseとなっていて、変換処理は行いません。
-
-※文字コンバート関連は、処理の性質上大変に処理能力を使いますのでお気をつけ
-　ください
 
 【XML関連】
 
@@ -454,7 +220,7 @@ $ktai->options['output_encoding'] = KTAI_ENCDING_UTF8, 	//出力をUTF-8に変�
 　定義したいインラインCSSに名前をつけて管理することが出来ます。
 　style((名前))で、その名前のスタイルを呼び出すことが出来ます。
 
-【フォント関連】[New!]
+【フォント関連】
 
 ・デフォルトのフォントサイズ(string)
 	'default_font_size' => 'medium', 
@@ -462,46 +228,6 @@ $ktai->options['output_encoding'] = KTAI_ENCDING_UTF8, 	//出力をUTF-8に変�
 　Lib3gkHtml::font()にてデフォルト(第一引数を無指定)で指定するフォントサイズを
 記述します。「small」「medium」「large」から指定できます。デフォルトは
 「medium」です。
-
-
---------------------------------------------------
-■ヘルパーの利用方法
---------------------------------------------------
-
-ヘルパーでライブラリーを使用するには、次の手順で行います。
-
-１：ライブラリを所定の位置にコピーする(前述)
-２：必要であれば、設定値をカスタマイズする
-３：コントローラにヘルパーを登録する
-
-	var $helper = array('Ktai', ...);
-
-４：ビュー内に記述
-
-<?php $ktai->emoji(63879); ?>←「[1]」を表示
-
-
---------------------------------------------------
-■コンポーネントの利用方法
---------------------------------------------------
-
-コンポーネントでライブラリーを使用するには、次の手順で行います。
-
-１：ライブラリを所定の位置にコピーする(前述)
-２：必要であれば、設定値をカスタマイズする
-３：コントローラにコンポーネントを登録する
-
-	var $components = array('Ktai', ...);
-
-４：コントローラ内に記述
-
-if($this->Ktai->is_ktai()){
-	echo "携帯でアクセスしています<br>\n";
-}
-
-【備考】
-　レンダリング結果に対して絵文字を全て変換したい場合は、コントローラ処理が
-終わるまでに「$this->ktai['convert_output'] = true」を設定します。
 
 
 --------------------------------------------------
@@ -521,7 +247,6 @@ if($this->Ktai->is_ktai()){
 http://start.typepad.jp/typecast/
 
 ２：入手したアーカイブを解凍し、emoiconフォルダをapp/webroot/img/にコピーする
-３：コンポーネント・ヘルパー内の絵文字画像のオプションを設定する。
 
 $this->ktai['use_img_emoji']    = true;		(コントローラ内処理で設定する場合)
 $ktai->options['use_img_emoji'] = true;		(ビュー内処理で設定する場合)
@@ -530,6 +255,20 @@ $ktai->options['use_img_emoji'] = true;		(ビュー内処理で設定する場�
 
 なお、サイトで絵文字画像を使用する場合は、画像についての利用規約に従って
 ご利用いただきますようお願いいたします。
+
+
+--------------------------------------------------
+■テストコード
+--------------------------------------------------
+
+　本ライブラリの開発は、PHPUnitによるユニットテストを行っております。
+もし本ライブラリを拡張したり不具合修正を行った律したい場合は、PHPUnitによる
+テストコードを記述する事でコードの信頼性を調べる事が出来ます。
+　なお、PHPUnitは、Pear版(正確にはFedoraのyumにてパッケージ化されている
+「php-pear-PHPUnit」)を利用しております。
+　テストコードは「/tests」内に格納されています。
+　なお、ただ単にサイト内に組み込んで利用する場合は、これらのファイルは特に必要
+ありません。
 
 
 --------------------------------------------------
@@ -552,7 +291,7 @@ bool is_jphone()	JPHONE携帯の判別
 bool is_ezweb()		EZWeb携帯の判別
 bool is_emobile()	EMOBILE携帯の判別
 bool is_iphone()	iPhoneの判別
-bool is_android()	Androidの判別[New!]
+bool is_android()	Androidの判別
 
 　各携帯端末を判別し、そうであったらtrueを返します。
 　is_vodafone()はJ-PHONEも、is_softbank()はvodafoneとJ-PHONEも含みます
@@ -588,7 +327,7 @@ KTAI_CARRIER_SOFTBANK	Softbank
 KTAI_CARRIER_EMOBILE	EMOBILE
 KTAI_CARRIER_IPHONE		iPhone
 KTAI_CARRIER_PHS		PHS
-KTAI_CARRIER_ANDROID	Android[New!]
+KTAI_CARRIER_ANDROID	Android
 
 
 ◎ユーザーエージェントの解析
@@ -661,7 +400,7 @@ bool is_phs_email(string $email)
 　PHSメールアドレスの場合、trueを返します。
 
 
-◎iMODE絵文字を他キャリア用に変換する [Update!]
+◎iMODE絵文字を他キャリア用に変換する 
 
 void convert_emoji(string &$str, int $carrier = null, $input_encoding = null, 
 	$output_encoding = null, $binary = null)
@@ -778,7 +517,7 @@ string style(string $name)
 ※lib3gkおよびヘルパーにて利用可能な関数です。
 
 
-◎フォントサイズの均一化が可能なフォントタグの生成[New!]
+◎フォントサイズの均一化が可能なフォントタグの生成
 
 string font(string $size = null, string $tag = null, string $style = null, 
 	boolean $display = true)
@@ -799,7 +538,7 @@ docomoはdivタグ、それ以外はfontタグで出力します。
 ※lib3gkおよびヘルパーにて利用可能な関数です。
 
 
-◎フォント終了タグの生成[New!]
+◎フォント終了タグの生成
 
 string fontend(boolean $display = true)
 
@@ -834,14 +573,14 @@ string int2utf8(int $value)
 
 　ユニコードをUTF-8文字列に変換します。
 
-◎文字から数値を作成 [New!]
+◎文字から数値を作成 
 
 string str2int(int $str)
 
 　文字から数値(キャラクターコード)に変換します。
 　マルチバイトに対応しています。
 
-◎UTF-8文字から数値(ユニコード)を作成 [New!]
+◎UTF-8文字から数値(ユニコード)を作成 
 
 string utf82int(int $value)
 
@@ -872,7 +611,7 @@ $options = array(
 　戻り値はイメージタグの文字列となります。
 
 
-◎Google static Maps APIを用いて地図の表示 [New!]
+◎Google static Maps APIを用いて地図の表示 
 
 string get_static_maps(string $lat, string $lon, array $options = array(), 
 	string $api_key = null)
@@ -961,16 +700,18 @@ http://blog.ecworks.jp/ktai
 ■バージョン情報
 --------------------------------------------------
 
+【Ver0.5.0】2011.4.10?
+　CakePHPのコードとセットになっていましたが、ライブラリ本体を分離しました
+
+・Lib2gkTools内でLib3gkCarrierを呼び出す際にparamsの合成手順が不正だった件を修正
+
 【Ver0.4.1】2011.2.11
 　・app/vendorsにもecwディレクトリを置けるように修正
 　・$ktaiプロパティなどにuse_xmlをセットしていないとワーニングが出る問題を修正
 　・emoji()で出力した絵文字がoutput_auto_convert_emojiオプション指定時に消えて
 　　しまう不具合を対処
-　・Lib3gkCarrier::is_android()のラッパーメソッドをコンポーネント・ヘルパー
-　　などに追加
 　・KDDIとemobileで出たの存在しない機種でLib3gkCarrier::analyze_user_agent()
 　　するとワーニングが出る問題を修正
-
 
 【Ver0.4.0】2010.11.30
 　・ktai_app_controller.phpの場所をapp直下に移動
@@ -988,9 +729,7 @@ http://blog.ecworks.jp/ktai
 　・本ドキュメントにKtaiAppControllerの使用方法について明記されていないため追加
 
 【Ver0.3.2】2010.05.17
-・0.3.1の修正でlayout内について自動変換処理がされない問題を修正
-　(これにより自動変換処理にktaiコンポーネント導入が必須になる)
-・ktaiヘルパー本体とテストケースにvar_dumpがあったため除去
+　CakePHP向けファイルについての修正
 
 【Ver0.3.1】2010.05.17
 　・session_use_trans_sid()を実行するための論理が逆になっているのを修正
@@ -1060,9 +799,6 @@ http://blog.ecworks.jp/ktai
 　・端末情報出力の強化
 　・mailtoリンクの生成機能追加
 　・高解像度画面サイズに合わせた画像のストレッチ機能追加
-　・コンポーネント・ヘルパー内のパラメータをライブラリ内のものと共通化
-　・コントローラからコンポーネント・ヘルパー内へのパラメータ送出手段を追加
-　・自動コンバート機能をコンポーネントからヘルパーに移動
 
 【Ver0.0.1】2009.03.12
 　公開バージョン
