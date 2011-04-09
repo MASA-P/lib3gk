@@ -1,9 +1,35 @@
 <?php
+/**
+ * Ktai library, supports Japanese mobile phone sites coding.
+ * It provides many functions such as a carrier check to use Referer or E-mail, 
+ * conversion of an Emoji, and more.
+ *
+ * PHP versions 5
+ *
+ * Ktai Library for CakePHP
+ * Copyright 2009-2011, ECWorks.
+ 
+ * Licensed under The GNU General Public Licence
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright		Copyright 2009-2011, ECWorks.
+ * @link			http://www.ecworks.jp/ ECWorks.
+ * @version			0.5.0
+ * @lastmodified	$Date: 2011-04-10 03:00:00 +0900 (Sun, 10 Apl 2011) $
+ * @license			http://www.gnu.org/licenses/gpl.html The GNU General Public Licence
+ */
+ 
 require_once 'PHPUnit/Framework.php';
 require_once(dirname(dirname(__FILE__)).'/libs/lib3gk_tools.php');
 require_once(dirname(dirname(__FILE__)).'/libs/lib3gk_carrier.php');
 require_once(dirname(__FILE__).'/includes/settings.php');
 
+/**
+ * Test class for Lib3gkTools
+ *
+ * @package       Lib3gk
+ * @subpackage    Lib3gk.tests
+ */
 class Lib3gkToolsTest extends PHPUnit_Framework_TestCase {
 
 	protected $Lib3gkTools = null;
