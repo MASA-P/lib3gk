@@ -70,43 +70,43 @@ class Lib3gkToolsTest extends PHPUnit_Framework_TestCase {
 		//
 		$s = urlencode(mb_convert_encoding($subject, 'SJIS', 'UTF-8'));
 		$b = urlencode(mb_convert_encoding($body, 'SJIS', 'UTF-8'));
-		$str_check = '<a href="mailto:'.$to.'?subject='.$s.'&body='.$b.'">'.$title.'</a>';
+		$expected = '<a href="mailto:'.$to.'?subject='.$s.'&body='.$b.'">'.$title.'</a>';
 		
 		$carrier->_carrier = KTAI_CARRIER_UNKNOWN;
 		$str = $this->Lib3gkTools->mailto($title, $to, $subject, $body, null, null, false);
-		$this->assertEquals($str, $str_check);
+		$this->assertEquals($expected, $str);
 		
 		$carrier->_carrier = KTAI_CARRIER_DOCOMO;
 		$str = $this->Lib3gkTools->mailto($title, $to, $subject, $body, null, null, false);
-		$this->assertEquals($str, $str_check);
+		$this->assertEquals($expected, $str);
 		
 		$carrier->_carrier = KTAI_CARRIER_KDDI;
 		$str = $this->Lib3gkTools->mailto($title, $to, $subject, $body, null, null, false);
-		$this->assertEquals($str, $str_check);
+		$this->assertEquals($expected, $str);
 		
 		$carrier->_carrier = KTAI_CARRIER_EMOBILE;
 		$str = $this->Lib3gkTools->mailto($title, $to, $subject, $body, null, null, false);
-		$this->assertEquals($str, $str_check);
+		$this->assertEquals($expected, $str);
 		
 		//testing for SoftBank, iPhone
 		//
 		$s = urlencode($subject);
 		$b = urlencode($body);
-		$str_check = '<a href="mailto:'.$to.'?subject='.$s.'&body='.$b.'">'.$title.'</a>';
+		$expected = '<a href="mailto:'.$to.'?subject='.$s.'&body='.$b.'">'.$title.'</a>';
 		
 		$carrier->_carrier = KTAI_CARRIER_SOFTBANK;
 		$str = $this->Lib3gkTools->mailto($title, $to, $subject, $body, null, null, false);
-		$this->assertEquals($str, $str_check);
+		$this->assertEquals($expected, $str);
 		
 		//testing for iPhone
 		//
 		$s = $subject;
 		$b = mb_ereg_replace("\n", "%0D%0A", mb_ereg_replace("\r", "", $body));
-		$str_check = '<a href="mailto:'.$to.'?subject='.$s.'&body='.$b.'">'.$title.'</a>';
+		$expected = '<a href="mailto:'.$to.'?subject='.$s.'&body='.$b.'">'.$title.'</a>';
 		
 		$carrier->_carrier = KTAI_CARRIER_IPHONE;
 		$str = $this->Lib3gkTools->mailto($title, $to, $subject, $body, null, null, false);
-		$this->assertEquals($str, $str_check);
+		$this->assertEquals($expected, $str);
 		
 	}
 	

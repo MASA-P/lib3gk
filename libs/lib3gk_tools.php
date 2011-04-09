@@ -113,7 +113,7 @@ class Lib3gkTools {
 			require_once(dirname(__FILE__).'/lib3gk_carrier.php');
 		}
 		$this->__carrier = Lib3gkCarrier::get_instance();
-		$this->_params = array_merge($this->_params, $this->__carrier->_params);
+		$this->_params = array_merge($this->__carrier->_params, $this->_params);
 		$this->__carrier->_params = &$this->_params;
 	}
 	
@@ -215,7 +215,7 @@ class Lib3gkTools {
 	 * @param $subject string メールの題名
 	 * @param $body string 本文
 	 * @param $input_encoding integer 入力文字エンコーディングコード
-	 * @param $output_encoding integer 出力文字エンコーディングコード
+	 * @param $output_encoding integer 出力文字エンコーディングコード(未使用)
 	 * @param $display boolean trueでecho出力(デフォルト)
 	 * @return string aタグ付きのmailto文字列
 	 * @access public
