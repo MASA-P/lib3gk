@@ -45,7 +45,7 @@ class Lib3gk {
 	 * @var string
 	 * @access protected
 	 */
-	var $_version = '0.4.1';
+	var $_version = '0.5.0';
 	
 	//------------------------------------------------
 	//Library sub classes

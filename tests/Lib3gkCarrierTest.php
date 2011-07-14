@@ -253,6 +253,10 @@ class Lib3gkCarrierTest extends PHPUnit_Framework_TestCase {
 		$mail = 'test@example.com';
 		$test_value = $this->Lib3gkCarrier->is_softbank_email($mail);
 		$this->assertFalse($test_value);
+		
+		$mail = 'test@disney.ne.jp';
+		$test_value = $this->Lib3gkCarrier->is_softbank_email($mail);
+		$this->assertTrue($test_value);
 	}
 	
 	public function testIsIphoneEmail(){

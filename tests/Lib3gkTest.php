@@ -46,7 +46,7 @@ class Lib3gkTest extends PHPUnit_Framework_TestCase {
 	
 	public function testGetVersion(){
 		$str = $this->Lib3gk->get_version();
-		$this->assertEquals($str, '0.4.1');
+		$this->assertEquals($str, '0.5.0');
 	}
 	
 	public function testGetIpCarrier(){

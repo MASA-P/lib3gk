@@ -47,6 +47,15 @@ class Lib3gkEmojiTest extends PHPUnit_Framework_TestCase {
 		
 	}
 	
+	public function testCreateImageEmoji(){
+		$carrier = Lib3gkCarrier::get_instance();
+		$user_agent = 'DoCoMo/2.0 P906i(c100;TB;W24H15)';
+		$carrier->get_carrier($user_agent, true);
+		
+		$str = $this->Lib3gkEmoji->create_image_emoji('sun');
+		$this->assertEquals($str, '<img src="./img/emoticons/sun.gif" border="0" width="16" height="16">');
+	}
+	
 	public function testEmoji(){
 		
 		$tools = Lib3gkTools::get_instance();
@@ -114,21 +123,41 @@ class Lib3gkEmojiTest extends PHPUnit_Framework_TestCase {
 		$str = $this->Lib3gkEmoji->emoji(0xe63e, false);
 		$this->assertEquals($str, $tools->int2utf8(0xef60));
 		
+		//SoftBank携帯はwebコードが使えなくなったため
+		//バイナリ＆数値文字参照に対応(ver0.4.2～)
+		//
 		$carrier->_carrier = KTAI_CARRIER_SOFTBANK;
 		$this->Lib3gkEmoji->_params['input_encoding']  = KTAI_ENCODING_SJISWIN;
 		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_SJISWIN;
 		$str = $this->Lib3gkEmoji->emoji(0xf89f, false);
-		$this->assertEquals($str, '$Gj');
+		$this->assertEquals($str, $tools->int2str(0xf98b));
 		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_UTF8;
 		$str = $this->Lib3gkEmoji->emoji(0xf89f, false);
-		$this->assertEquals($str, '$Gj');
+		$this->assertEquals($str, $tools->int2utf8(0xe04a));
 		$this->Lib3gkEmoji->_params['input_encoding']  = KTAI_ENCODING_UTF8;
 		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_SJISWIN;
 		$str = $this->Lib3gkEmoji->emoji(0xe63e, false);
-		$this->assertEquals($str, '$Gj');
+		$this->assertEquals($str, $tools->int2str(0xf98b));
 		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_UTF8;
 		$str = $this->Lib3gkEmoji->emoji(0xe63e, false);
-		$this->assertEquals($str, '$Gj');
+		$this->assertEquals($str, $tools->int2utf8(0xe04a));
+		
+		$this->Lib3gkEmoji->_params['use_binary_emoji']  = false;
+		$this->Lib3gkEmoji->_params['input_encoding']  = KTAI_ENCODING_SJISWIN;
+		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_SJISWIN;
+		$str = $this->Lib3gkEmoji->emoji(0xf89f, false);
+		$this->assertEquals($str, '&#57418;');
+		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_UTF8;
+		$str = $this->Lib3gkEmoji->emoji(0xf89f, false);
+		$this->assertEquals($str, '&#xe04a;');
+		$this->Lib3gkEmoji->_params['input_encoding']  = KTAI_ENCODING_UTF8;
+		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_SJISWIN;
+		$str = $this->Lib3gkEmoji->emoji(0xe63e, false);
+		$this->assertEquals($str, '&#57418;');
+		$this->Lib3gkEmoji->_params['output_encoding'] = KTAI_ENCODING_UTF8;
+		$str = $this->Lib3gkEmoji->emoji(0xe63e, false);
+		$this->assertEquals($str, '&#xe04a;');
+		$this->Lib3gkEmoji->_params['use_binary_emoji']  = true;
 		
 		$carrier->_carrier = KTAI_CARRIER_EMOBILE;
 		$this->Lib3gkEmoji->_params['input_encoding']  = KTAI_ENCODING_SJISWIN;
@@ -165,22 +194,28 @@ class Lib3gkEmojiTest extends PHPUnit_Framework_TestCase {
 		
 		$code = 0xf89f;
 		$oekey = 0;
+		$useHex = false;
 		$binary = false;
-		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $binary);
+		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $useHex, $binary);
 		$this->assertEquals($str, '&#63647;');
 		
 		$binary = true;
-		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $binary);
+		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $useHex, $binary);
 		$this->assertEquals($str, $tools->int2str($code));
 		
 		$code = 0xe63e;
 		$oekey = 1;
+		$useHex = false;
 		$binary = false;
-		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $binary);
+		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $useHex, $binary);
+		$this->assertEquals($str, '&#58942;');
+		
+		$useHex = true;
+		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $useHex, $binary);
 		$this->assertEquals($str, '&#xe63e;');
 		
 		$binary = true;
-		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $binary);
+		$str = $this->Lib3gkEmoji->__convertEmojiChractor($code, $oekey, $useHex, $binary);
 		$this->assertEquals($str, $tools->int2utf8($code));
 		
 	}
@@ -403,12 +438,12 @@ class Lib3gkEmojiTest extends PHPUnit_Framework_TestCase {
 				), 
 				KTAI_CARRIER_SOFTBANK => array(
 					array(
-						'$Gj', 
-						'$Gj', 
+						'&#xe04a;', 
+						'&#xe04a;', 
 					), 
 					array(
-						'$Gj', 
-						'$Gj', 
+						$lib3gkTools->int2utf8(0xe04a), 
+						$lib3gkTools->int2utf8(0xe04a), 
 					), 
 				), 
 			), 
@@ -445,12 +480,12 @@ class Lib3gkEmojiTest extends PHPUnit_Framework_TestCase {
 				), 
 				KTAI_CARRIER_SOFTBANK => array(
 					array(
-						'$Gj', 
-						'$Gj', 
+						'&#57418;', 
+						'&#57418;', 
 					), 
 					array(
-						'$Gj', 
-						'$Gj', 
+						$lib3gkTools->int2str(0xf98b), 
+						$lib3gkTools->int2str(0xf98b), 
 					), 
 				), 
 			), 
