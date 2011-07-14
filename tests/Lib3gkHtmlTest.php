@@ -70,6 +70,9 @@ class Lib3gkHtmlTest extends PHPUnit_Framework_TestCase {
 		$str = 'Ktai Library';
 		$result = $this->Lib3gkHtml->get_qrcode($str);
 		$this->assertTrue(preg_match('/Ktai Library/', $result) !== false);
+		
+		$result = $this->Lib3gkHtml->get_qrcode($str, array('ec' => '-L', 'margin' => 4));
+		$this->assertEquals(preg_match('/&amp;chld=-L|4/', $result), 1);
 	}
 	
 	public function testGetStaticMaps(){
