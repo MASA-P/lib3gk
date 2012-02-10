@@ -15,7 +15,7 @@
  * @copyright		Copyright 2009-2012, ECWorks.
  * @link			http://www.ecworks.jp/ ECWorks.
  * @version			0.5.1
- * @lastmodified	$Date: 2012-02-10 12:00:00 +0900 (Fri, 10 Feb 2012) $
+ * @lastmodified	$Date: 2012-02-12 06:00:00 +0900 (Sat, 12 Feb 2012) $
  * @license			http://www.gnu.org/licenses/gpl.html The GNU General Public Licence
  */
  
