@@ -79,7 +79,7 @@ class Lib3gkIpTest extends PHPUnit_Framework_TestCase {
 		$test_value = $this->Lib3gkIp->ip2carrier('210.230.128.225');
 		$this->assertEquals($test_value, 2);
 		
-		$test_value = $this->Lib3gkIp->ip2carrier('123.108.237.1');
+		$test_value = $this->Lib3gkIp->ip2carrier('123.108.237.115');
 		$this->assertEquals($test_value, 3);
 		
 		$test_value = $this->Lib3gkIp->ip2carrier('117.55.1.225');
